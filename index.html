@@ -1,0 +1,895 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Collection Portfolio Overview — Executive Summary</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#EFF4FB;
+    --surface:#FFFFFF;
+    --surface-tint:#F3F8FE;
+    --border:#DCE6F5;
+    --ink:#132540;
+    --ink-soft:#5B6B85;
+    --ink-faint:#8B98AF;
+    --blue:#2F6FED;
+    --blue-deep:#154BAF;
+    --blue-pale:#E3EDFD;
+    --blue-pale2:#EEF4FE;
+    --teal:#0E9E93;
+    --teal-pale:#E1F5F2;
+    --green:#1E9E6D;
+    --green-pale:#E3F5EC;
+    --red:#D6455A;
+    --red-pale:#FBE6E9;
+    --amber:#D98F1E;
+    --amber-pale:#FBEED9;
+    --navy-950:#0B1B33;
+    --navy-900:#0F2547;
+    --navy-800:#14294D;
+    --navy-700:#1E3A63;
+    --orange:#E08A2E;
+    --orange-deep:#C96A12;
+    --orange-pale:rgba(224,138,46,0.18);
+    --radius:12px;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;height:100%;background:#DCE6F3;}
+  body{
+    font-family:'Inter',sans-serif; color:var(--ink);
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3{font-family:'Space Grotesk',sans-serif;margin:0;}
+  .num{font-family:'JetBrains Mono',monospace;}
+
+  /* ---------- Scale-to-fit stage ---------- */
+  #viewport{
+    position:fixed;inset:0;display:flex;align-items:center;justify-content:center;
+    overflow:hidden;background:
+      radial-gradient(circle at 15% 10%, #E9F1FC 0%, #DCE6F3 55%);
+  }
+  #stage{
+    width:1600px;height:900px;flex:none;position:relative;
+    background:var(--bg);
+    box-shadow:0 40px 90px rgba(20,50,110,0.22);
+    border-radius:6px;overflow:hidden;
+    display:flex;flex-direction:column;
+  }
+
+  /* ---------- Chrome: header ---------- */
+  .chrome-head{
+    height:60px;flex:none;display:flex;align-items:center;justify-content:space-between;
+    padding:0 26px;background:linear-gradient(115deg,var(--navy-950),var(--navy-800));
+    border-bottom:2px solid var(--orange-deep);
+  }
+  .brand{display:flex;align-items:center;gap:12px;}
+  .brand .mark{
+    width:34px;height:34px;border-radius:9px;
+    background:linear-gradient(145deg,var(--orange),var(--orange-deep));
+    display:flex;align-items:center;justify-content:center;color:#241203;font-size:16px;
+  }
+  .brand-txt{line-height:1.15;}
+  .brand-txt .b1{font-size:11px;letter-spacing:1.2px;font-weight:700;color:#8CA0C4;text-transform:uppercase;}
+  .brand-txt .b2{font-size:16px;font-weight:700;color:#fff;font-family:'Space Grotesk',sans-serif;}
+  .page-title{text-align:left;}
+  .page-title .eyebrow{font-size:10.5px;font-weight:700;letter-spacing:1px;color:var(--orange);text-transform:uppercase;}
+  .page-title h1{font-size:17px;color:#fff;}
+  .head-right{display:flex;align-items:center;gap:14px;}
+  .filter-chip{
+    display:flex;flex-direction:column;gap:1px;padding:5px 12px;border:1px solid rgba(255,255,255,0.12);
+    border-radius:9px;background:rgba(255,255,255,0.06);
+  }
+  .filter-chip .fl{font-size:9px;color:#8CA0C4;text-transform:uppercase;letter-spacing:.4px;font-weight:700;}
+  .filter-chip .fv{font-size:12px;font-weight:600;color:#fff;}
+  .asof-chip{font-size:11px;color:#B7C4DD;display:flex;align-items:center;gap:6px;}
+  .live-dot{width:7px;height:7px;border-radius:50%;background:var(--green);box-shadow:0 0 0 3px rgba(30,158,109,0.3);}
+
+  .pager{display:flex;align-items:center;gap:10px;margin-left:6px;}
+  .pager button{
+    width:26px;height:26px;border-radius:50%;border:1px solid rgba(255,255,255,0.18);background:rgba(255,255,255,0.06);
+    cursor:pointer;color:#fff;font-size:13px;display:flex;align-items:center;justify-content:center;
+  }
+  .pager button:hover{background:var(--orange);border-color:var(--orange);color:#241203;}
+  .dots{display:flex;gap:6px;}
+  .dots span{width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,0.25);cursor:pointer;}
+  .dots span.active{background:var(--orange);width:18px;border-radius:5px;}
+
+  /* ---------- Chrome: footer ---------- */
+  .chrome-foot{
+    height:24px;flex:none;display:flex;align-items:center;justify-content:space-between;
+    padding:0 26px;font-size:9.5px;color:#8CA0C4;background:var(--navy-950);border-top:1px solid var(--navy-700);
+  }
+
+  /* ---------- Pages ---------- */
+  .pages-wrap{position:relative;flex:1;}
+  .page{
+    position:absolute;inset:0;display:none;flex-direction:column;gap:12px;
+    padding:14px 24px 12px;
+  }
+  .page.active{display:flex;}
+
+  /* ---------- generic card ---------- */
+  .card{
+    background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);
+    padding:12px 16px;display:flex;flex-direction:column;min-height:0;overflow:hidden;
+    box-shadow:0 1px 2px rgba(20,50,110,0.03);
+  }
+  .card-title{
+    display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;flex:none;
+  }
+  .card-title h2{font-size:12.5px;font-weight:700;letter-spacing:.3px;color:var(--ink);text-transform:uppercase;display:flex;align-items:center;gap:7px;}
+  .card-title .ic{
+    width:19px;height:19px;border-radius:6px;background:var(--blue-pale);color:var(--blue-deep);
+    display:flex;align-items:center;justify-content:center;font-size:10.5px;flex:none;
+  }
+  .card-title .tag{font-size:9.5px;color:var(--ink-faint);font-weight:600;}
+
+  /* ---------- KPI tiles ---------- */
+  .kpi-row{display:grid;grid-template-columns:repeat(6,1fr);gap:12px;flex:none;}
+  .kpi{
+    background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);
+    padding:12px 14px;display:flex;flex-direction:column;gap:5px;position:relative;overflow:hidden;
+  }
+  .kpi::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--blue);}
+  .kpi.risk::before{background:var(--red);}
+  .kpi .kicon{font-size:14px;}
+  .kpi .klabel{font-size:9.5px;font-weight:700;letter-spacing:.5px;color:var(--ink-faint);text-transform:uppercase;}
+  .kpi .kvalue{font-size:21px;font-weight:700;font-family:'JetBrains Mono',monospace;color:var(--ink);}
+  .kpi .kcompare{font-size:10.5px;color:var(--ink-faint);display:flex;align-items:center;gap:5px;}
+  .chg{font-weight:700;display:inline-flex;align-items:center;gap:2px;padding:1px 6px;border-radius:10px;font-size:10px;}
+  .chg.good{background:var(--green-pale);color:var(--green);}
+  .chg.bad{background:var(--red-pale);color:var(--red);}
+  .chg.neutral{background:var(--amber-pale);color:var(--amber);}
+
+  /* ---------- rows / grid utility ---------- */
+  .row{display:grid;grid-template-rows:1fr;gap:12px;flex:1;min-height:0;}
+  .cols-2-a{grid-template-columns:1.9fr 1fr;}
+  .cols-3{grid-template-columns:1fr 1fr 1fr;}
+  .cols-2-b{grid-template-columns:1.35fr 1fr;}
+
+  /* ---------- Tables ---------- */
+  table{width:100%;border-collapse:collapse;font-size:11px;}
+  thead th{
+    text-align:left;font-size:9px;text-transform:uppercase;letter-spacing:.4px;color:var(--ink-faint);
+    padding:5px 6px;border-bottom:1px solid var(--border);font-weight:700;
+  }
+  tbody td{padding:6.5px 6px;border-bottom:1px solid var(--border);color:var(--ink);}
+  tbody tr:last-child td{border-bottom:none;}
+  .prod-ic{width:16px;height:16px;border-radius:5px;background:var(--blue-pale);display:inline-flex;align-items:center;justify-content:center;font-size:9px;margin-right:6px;}
+
+  /* ---------- misc small components ---------- */
+  .stat-strip{display:flex;justify-content:space-between;gap:6px;flex:none;margin-bottom:6px;}
+  .ministat{flex:1;padding:6px 9px;background:var(--surface-tint);border-radius:9px;border:1px solid var(--border);}
+  .ministat .ml{font-size:8.5px;color:var(--ink-faint);text-transform:uppercase;font-weight:700;letter-spacing:.3px;}
+  .ministat .mv{font-size:14px;font-weight:700;font-family:'JetBrains Mono',monospace;color:var(--ink);margin-top:1px;}
+  .ministat .mc{font-size:9px;margin-top:1px;}
+
+  .legend-row{display:flex;gap:12px;flex-wrap:wrap;font-size:9.5px;color:var(--ink-soft);margin-top:4px;flex:none;}
+  .legend-row i{width:8px;height:8px;border-radius:2px;display:inline-block;margin-right:4px;}
+
+  .chart-holder{flex:1;min-height:0;display:flex;align-items:center;justify-content:center;}
+  .chart-holder svg{width:100%;height:100%;}
+
+  .bucket-table td, .bucket-table th{padding:4.5px 6px;}
+  .bucket-swatch{width:9px;height:9px;border-radius:2px;display:inline-block;margin-right:6px;}
+
+  .narrative-strip{
+    flex:none;display:flex;gap:14px;align-items:center;
+    background:linear-gradient(90deg,var(--blue-pale2),var(--surface));
+    border:1px solid var(--border);border-radius:var(--radius);padding:12px 18px;
+  }
+  .narrative-strip .aic{
+    width:34px;height:34px;border-radius:9px;background:var(--blue);color:#fff;flex:none;
+    display:flex;align-items:center;justify-content:center;font-size:16px;
+  }
+  .narrative-strip .ntxt{font-size:12.5px;color:var(--ink);line-height:1.4;flex:1;}
+  .narrative-strip .ntxt b{color:var(--blue-deep);}
+  .mini-chip-row{display:flex;gap:10px;flex:none;}
+  .mini-chip{
+    padding:6px 12px;border-radius:9px;background:var(--surface-tint);border:1px solid var(--border);
+    font-size:10.5px;display:flex;flex-direction:column;gap:1px;min-width:110px;
+  }
+  .mini-chip .cl{font-size:8.5px;color:var(--ink-faint);text-transform:uppercase;font-weight:700;}
+  .mini-chip .cv{font-size:13px;font-weight:700;font-family:'JetBrains Mono',monospace;}
+
+  /* ---------- delinquency drivers ---------- */
+  .driver-item{display:flex;align-items:center;justify-content:space-between;padding:7px 0;border-bottom:1px solid var(--border);}
+  .driver-item:last-child{border-bottom:none;}
+  .driver-item .dname{font-size:11.5px;font-weight:600;color:var(--ink);}
+  .driver-bar-bg{height:5px;background:var(--surface-tint);border-radius:3px;margin-top:4px;width:100%;overflow:hidden;}
+  .driver-bar{height:100%;background:var(--red);border-radius:3px;}
+  .driver-val{font-size:11px;font-weight:700;color:var(--red);font-family:'JetBrains Mono',monospace;}
+
+  /* ---------- YoY key change cards (page 3) ---------- */
+  .kc-row{display:grid;grid-template-columns:repeat(6,1fr);gap:12px;flex:none;height:170px;}
+  .kc-card{
+    background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);
+    padding:14px 12px;display:flex;flex-direction:column;align-items:center;text-align:center;gap:6px;justify-content:center;
+  }
+  .kc-card .kcic{
+    width:36px;height:36px;border-radius:10px;background:var(--blue-pale);color:var(--blue-deep);
+    display:flex;align-items:center;justify-content:center;font-size:17px;
+  }
+  .kc-card .kctitle{font-size:11px;font-weight:700;color:var(--ink);}
+  .kc-card .kcsub{font-size:9px;color:var(--ink-faint);line-height:1.3;}
+  .kc-card .kcval{font-size:14px;font-weight:700;font-family:'JetBrains Mono',monospace;}
+  .kc-card .kcval.good{color:var(--green);}
+  .kc-card .kcval.bad{color:var(--red);}
+
+  /* ---------- AI page ---------- */
+  .ai-card{border-color:#CFEDE9;background:linear-gradient(180deg,#FFFFFF, #F5FCFB);}
+  .ai-card .card-title .ic{background:var(--teal-pale);color:var(--teal);}
+  .ai-badge{
+    display:inline-flex;align-items:center;gap:6px;padding:3px 10px;border-radius:20px;
+    background:var(--teal-pale);color:var(--teal);font-size:9.5px;font-weight:700;letter-spacing:.3px;
+  }
+  .pulse{width:6px;height:6px;border-radius:50%;background:var(--teal);animation:pulse 1.8s infinite;}
+  @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(14,158,147,.5);}70%{box-shadow:0 0 0 6px rgba(14,158,147,0);}100%{box-shadow:0 0 0 0 rgba(14,158,147,0);}}
+
+  .conf-chip{padding:2px 8px;border-radius:10px;font-size:9.5px;font-weight:700;}
+  .conf-High{background:var(--green-pale);color:var(--green);}
+  .conf-Med{background:var(--amber-pale);color:var(--amber);}
+  .conf-Low{background:var(--red-pale);color:var(--red);}
+
+  .anomaly-row{display:flex;gap:10px;flex:1;}
+  .anomaly-item{
+    flex:1;padding:10px 12px;border-radius:10px;border:1px solid var(--border);
+    display:flex;flex-direction:column;gap:5px;
+  }
+  .anomaly-item .atag{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.3px;padding:2px 7px;border-radius:8px;width:fit-content;}
+  .anomaly-item .atxt{font-size:10.5px;color:var(--ink);line-height:1.35;}
+  .tag-critical{background:var(--red-pale);color:var(--red);}
+  .tag-watch{background:var(--amber-pale);color:var(--amber);}
+  .tag-info{background:var(--blue-pale);color:var(--blue-deep);}
+
+  .model-strip{display:flex;gap:10px;flex:none;}
+  .model-chip{
+    flex:1;padding:8px 12px;border-radius:9px;background:var(--surface-tint);border:1px solid var(--border);
+    text-align:center;
+  }
+  .model-chip .mcl{font-size:8.5px;color:var(--ink-faint);text-transform:uppercase;font-weight:700;}
+  .model-chip .mcv{font-size:13px;font-weight:700;font-family:'JetBrains Mono',monospace;color:var(--ink);}
+</style>
+</head>
+<body>
+
+<div id="viewport">
+  <div id="stage">
+
+    <div class="chrome-head">
+      <div class="brand">
+        <div class="mark">◆</div>
+        <div class="brand-txt">
+          <div class="b1">Bank Demo</div>
+          <div class="b2">Collections Intelligence</div>
+        </div>
+      </div>
+
+      <div class="page-title">
+        <div class="eyebrow" id="pageEyebrow">Executive Summary</div>
+        <h1 id="pageHeading">Collection Portfolio Overview</h1>
+      </div>
+
+      <div class="head-right">
+        <div class="filter-chip"><span class="fl">Time Period</span><span class="fv">Apr 2026 (MTD)</span></div>
+        <div class="filter-chip"><span class="fl">Compared To</span><span class="fv">Apr 2025</span></div>
+        <div class="filter-chip"><span class="fl">Business Line</span><span class="fv">All Retail</span></div>
+        <div class="asof-chip"><span class="live-dot"></span>Data as of 26 Apr 2026</div>
+        <div class="pager">
+          <button id="prevBtn">‹</button>
+          <div class="dots" id="dotsWrap"></div>
+          <button id="nextBtn">›</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="pages-wrap" id="pagesWrap"></div>
+
+    <div class="chrome-foot">
+      <span>pp = Percentage Points &nbsp;·&nbsp; LY = Last Year &nbsp;·&nbsp; MTD = Month to Date &nbsp;·&nbsp; YTD = Year to Date &nbsp;·&nbsp; NLP = Net Liquidation Percentage</span>
+      <span id="footRight">Source: Core Banking System · Collections Intelligence Engine v2.3</span>
+    </div>
+
+  </div>
+</div>
+
+<script>
+/* =========================================================================
+   DATA
+   ========================================================================= */
+const KPIS_HEADLINE = [
+  {icon:"◎", label:"Collection Target (YTD)", value:"EGP 1.25B", vs:"EGP 1.08B", chg:"+15.7%", dir:"good"},
+  {icon:"◍", label:"Amount Collected (YTD)", value:"EGP 963M", vs:"EGP 812M", chg:"+18.6%", dir:"good"},
+  {icon:"◐", label:"Net Liquidation % (NLP)", value:"76.9%", vs:"72.1%", chg:"+4.8 pp", dir:"good"},
+  {icon:"▤", label:"Portfolio on Book", value:"EGP 18.62B", vs:"EGP 16.27B", chg:"+14.4%", dir:"neutral"},
+  {icon:"⚠", label:"Written Off (YTD)", value:"EGP 412M", vs:"EGP 315M", chg:"+30.8%", dir:"bad", risk:true},
+  {icon:"◒", label:"Cost to Collect", value:"8.7%", vs:"9.3%", chg:"-0.6 pp", dir:"good"},
+];
+
+const PERF_MONTHS = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+const PERF_THIS = [178,205,298,242,205,268,232,255,238,251,244,248];
+const PERF_LY   = [148,162,175,168,172,180,176,184,179,190,186,192];
+
+const MINI_STATS = [
+  {l:"MTD Collected (EGP)", v:"248M", c:"+22.2%", dir:"good"},
+  {l:"YTD Collected (EGP)", v:"963M", c:"+18.6%", dir:"good"},
+  {l:"YTD Target Achieved", v:"77%", c:"+6 pp", dir:"good"},
+  {l:"NLP (YTD)", v:"76.9%", c:"+4.8 pp", dir:"good"},
+  {l:"Roll Rate (30+)", v:"8.3%", c:"-1.4 pp", dir:"good"},
+];
+
+const BUCKETS = [
+  {name:"Current (0–30)", val:"11.24B", pct:60.4, vsly:"+12.6%", color:"#2F6FED"},
+  {name:"31–60", val:"2.37B", pct:12.7, vsly:"+8.2%", color:"#7FA8F5"},
+  {name:"61–90", val:"1.72B", pct:9.2, vsly:"+15.1%", color:"#D98F1E"},
+  {name:"91–120", val:"1.06B", pct:5.7, vsly:"+18.6%", color:"#E3A94E"},
+  {name:"121–180", val:"1.05B", pct:5.6, vsly:"+10.3%", color:"#E3455A"},
+  {name:"180+", val:"1.18B", pct:6.4, vsly:"+24.7%", color:"#A8253A"},
+];
+
+const PRODUCTS = [
+  {ic:"◧", name:"Personal Loans", portfolio:"8.26B", nlp:"78.3%", collected:"428M", vsly:"+5.1 pp", dir:"good"},
+  {ic:"▭", name:"Credit Cards", portfolio:"5.31B", nlp:"74.1%", collected:"312M", vsly:"+3.2 pp", dir:"good"},
+  {ic:"◨", name:"Auto Loans", portfolio:"2.62B", nlp:"77.8%", collected:"162M", vsly:"+6.8 pp", dir:"good"},
+  {ic:"⌂", name:"Mortgage Loans", portfolio:"1.98B", nlp:"70.2%", collected:"61M", vsly:"-1.7 pp", dir:"bad"},
+  {ic:"◇", name:"Other Loans", portfolio:"0.45B", nlp:"65.4%", collected:"18M", vsly:"+2.6 pp", dir:"good"},
+];
+
+const WRITEOFF_BY_PRODUCT = [
+  {name:"Personal Loans", val:196}, {name:"Credit Cards", val:126}, {name:"Auto Loans", val:54},
+  {name:"Mortgage Loans", val:24}, {name:"Other Loans", val:12}
+];
+
+const LENDING = [
+  {l:"New Book (YTD)", v:"EGP 3.62B", vs:"EGP 3.01B", chg:"+20.3%", dir:"good"},
+  {l:"Approved Applications (YTD)", v:"9,842", vs:"8,265", chg:"+19.1%", dir:"good"},
+  {l:"Approval Rate", v:"36.8%", vs:"40.4%", chg:"-3.6 pp", dir:"neutral"},
+];
+
+const FUNNEL = [
+  {name:"Total Portfolio", amt:"18.62B", pct:"100%", w:100},
+  {name:"Past Due (1+ DPD)", amt:"7.38B", pct:"39.7%", w:74},
+  {name:"Contacted", amt:"5.21B", pct:"28.0%", w:56},
+  {name:"Promise to Pay", amt:"2.73B", pct:"14.7%", w:36},
+  {name:"Collected", amt:"963M", pct:"5.2%", w:20},
+];
+
+const DRIVERS = [
+  {name:"High Utilization", val:"+28.6%", pct:100},
+  {name:"Payment Capacity Stress", val:"+21.3%", pct:75},
+  {name:"Too Many Open Accounts", val:"+17.8%", pct:63},
+  {name:"Low Income Stability", val:"+15.4%", pct:54},
+  {name:"Recent Employment Change", val:"+13.2%", pct:47},
+];
+
+const BUCKET_MIGRATION_MONTHS = ["May","Jun","Jul","Aug","Sep","Oct","Nov","Dec","Jan","Feb","Mar","Apr"];
+// stacked series bottom->top: current, 31-60, 61-90, 91-120, 121-180, 180+  (values in % of portfolio)
+const BUCKET_SERIES = [
+  {name:"Current (0–30)", color:"#2F6FED", data:[63.8,63.1,62.5,62.0,61.6,61.3,61.0,60.8,60.7,60.6,60.5,60.4]},
+  {name:"31–60", color:"#7FA8F5", data:[11.4,11.6,11.7,11.9,12.0,12.1,12.2,12.3,12.4,12.5,12.6,12.7]},
+  {name:"61–90", color:"#D98F1E", data:[8.1,8.3,8.4,8.6,8.7,8.8,8.9,9.0,9.0,9.1,9.1,9.2]},
+  {name:"91–120", color:"#E3A94E", data:[5.0,5.1,5.2,5.3,5.4,5.4,5.5,5.5,5.6,5.6,5.7,5.7]},
+  {name:"121–180", color:"#E3455A", data:[5.0,5.1,5.2,5.3,5.3,5.4,5.4,5.5,5.5,5.6,5.6,5.6]},
+  {name:"180+", color:"#A8253A", data:[6.7,6.8,7.0,7.1,7.2,7.3,7.4,7.5,7.6,7.7,7.9,6.4]},
+];
+
+const KEY_CHANGES = [
+  {icon:"📈", title:"Portfolio Growth", sub:"Portfolio increased by", val:"EGP 2.35B", tag:"(+14.4%)", dir:"good"},
+  {icon:"🤝", title:"More Lending", sub:"New Book increased by", val:"EGP 611M", tag:"(+20.3%)", dir:"good"},
+  {icon:"✅", title:"Better Collections", sub:"NLP improved by", val:"4.8 pp", tag:"(72.1% → 76.9%)", dir:"good"},
+  {icon:"🛡", title:"Lower Roll Rate", sub:"30+ Roll Rate improved by", val:"1.4 pp", tag:"(9.7% → 8.3%)", dir:"good"},
+  {icon:"⚠", title:"Higher Write-offs", sub:"Write-offs increased by", val:"EGP 97M", tag:"(+30.8%)", dir:"bad"},
+  {icon:"💰", title:"Lower Cost to Collect", sub:"Cost to collect improved by", val:"0.6 pp", tag:"(9.3% → 8.7%)", dir:"good"},
+];
+
+const AI_RISK_TIERS = [
+  {name:"Low Risk", pct:68, amt:"12.66B", color:"#2F6FED", note:"High self-cure probability"},
+  {name:"Medium Risk", pct:22, amt:"4.10B", color:"#D98F1E", note:"Needs proactive engagement"},
+  {name:"High Risk", pct:10, amt:"1.86B", color:"#D6455A", note:"Predicted 90-day default 42%"},
+];
+
+const AI_ACTIONS = [
+  {seg:"Likely Self-Cure", action:"Deprioritize outbound calls — shift to digital reminders", accts:"1,240", recovery:"EGP 18M", conf:"High"},
+  {seg:"Rising Utilization, Good History", action:"Proactive early-intervention offer (limit adjustment)", accts:"380", recovery:"EGP 42M", conf:"High"},
+  {seg:"90+ DPD, Unresponsive", action:"Escalate to field collections / legal review", accts:"612", recovery:"EGP 96M", conf:"High"},
+  {seg:"Auto Loan Anomalous Spike", action:"Investigate root cause — dealer channel review", accts:"145", recovery:"EGP 21M", conf:"Med"},
+  {seg:"Hardship Indicators Detected", action:"Offer restructuring / hardship program", accts:"298", recovery:"EGP 34M", conf:"Med"},
+];
+
+const ANOMALIES = [
+  {tag:"Critical", cls:"tag-critical", txt:"Auto Loans 90+ DPD bucket up 18% MoM — 3.2× normal volatility band."},
+  {tag:"Watch", cls:"tag-watch", txt:"Credit Card write-off velocity accelerating past risk-appetite threshold."},
+  {tag:"Opportunity", cls:"tag-info", txt:"Personal Loan self-cure rate exceeding forecast by 9 pp — reallocate agent capacity."},
+  {tag:"Watch", cls:"tag-watch", txt:"Approval rate below 12-month trend for 3rd consecutive month."},
+];
+
+const MODEL_STATS = [
+  {l:"Model Accuracy", v:"87.4%"}, {l:"Precision (High Risk)", v:"91.0%"},
+  {l:"Portfolio Coverage", v:"100%"}, {l:"Last Retrained", v:"14 Aug 2026"},
+];
+
+const NLP_FORECAST_MONTHS = ["Jan","Feb","Mar","Apr","May*","Jun*","Jul*"];
+const NLP_FORECAST_ACTUAL = [71.8,73.0,74.5,76.9];
+const NLP_FORECAST_PROJ =  [76.9,77.6,78.4,79.2];
+
+/* =========================================================================
+   HELPERS
+   ========================================================================= */
+function chgSpan(text, dir){
+  const arrow = text.trim().startsWith("-") ? "↓" : "↑";
+  return `<span class="chg ${dir}">${arrow} ${text.replace(/^[-+]/,"")}</span>`;
+}
+function esc(s){return s;}
+
+/* =========================================================================
+   SVG CHART BUILDERS (fixed pixel canvases — stage is fixed 1600x900)
+   ========================================================================= */
+function niceMax(v){
+  if(v<=0) return 10;
+  const mag = Math.pow(10, Math.floor(Math.log10(v)));
+  const norm = v/mag;
+  const step = norm<=1?1:norm<=2?2:norm<=5?5:10;
+  return step*mag;
+}
+
+function lineChart(W,H,{labels, series, yMin=0, yMax=null}){
+  const padL=34, padR=10, padT=10, padB=22;
+  const innerW=W-padL-padR, innerH=H-padT-padB;
+  const allVals = series.flatMap(s=>s.data);
+  const maxV = yMax !== null ? yMax : niceMax(Math.max(...allVals)*1.15);
+  const minV = yMin;
+  const range = maxV - minV;
+  const x = i => padL + innerW*i/(labels.length-1);
+  const y = v => padT + innerH - innerH*(v-minV)/range;
+
+  const grid = [0,0.5,1].map(f=>{
+    const gy = padT + innerH*(1-f);
+    return `<line x1="${padL}" y1="${gy}" x2="${W-padR}" y2="${gy}" stroke="#E6EDF8" stroke-width="1"/>
+            <text x="${padL-6}" y="${gy+3}" text-anchor="end" font-size="9" fill="#8B98AF" font-family="Inter">${Math.round(minV+range*f)}</text>`;
+  }).join("");
+
+  const xLabels = labels.map((m,i)=> i%1===0 ? `<text x="${x(i)}" y="${H-6}" text-anchor="middle" font-size="9" fill="#8B98AF" font-family="Inter">${m}</text>`:"").join("");
+
+  const paths = series.map(s=>{
+    const pts = s.data.map((v,i)=>`${x(i)},${y(v)}`).join(" ");
+    const dotR = s.dashed ? 0 : 2.6;
+    const dots = s.dashed ? "" : s.data.map((v,i)=>`<circle cx="${x(i)}" cy="${y(v)}" r="${dotR}" fill="${s.color}" stroke="#fff" stroke-width="1"/>`).join("");
+    const dash = s.dashed ? `stroke-dasharray="4 4"` : "";
+    let area = "";
+    if(s.fill){
+      const areaPts = `${x(0)},${y(0)} ${pts} ${x(s.data.length-1)},${y(0)}`;
+      area = `<polygon points="${areaPts}" fill="${s.color}" opacity="0.08"/>`;
+    }
+    return `${area}<polyline points="${pts}" fill="none" stroke="${s.color}" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round" ${dash}/>${dots}`;
+  }).join("");
+
+  return `<svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">${grid}${paths}${xLabels}</svg>`;
+}
+
+function donutChart(W,H,segments,{centerLabel, centerSub}){
+  const cx=W/2, cy=H/2, r=Math.min(W,H)/2-6, stroke=r*0.42;
+  const R=r - stroke/2;
+  const circumference = 2*Math.PI*R;
+  let offset=0;
+  const arcs = segments.map(seg=>{
+    const len = circumference*seg.pct/100;
+    const dash = `${len} ${circumference-len}`;
+    const el = `<circle cx="${cx}" cy="${cy}" r="${R}" fill="none" stroke="${seg.color}" stroke-width="${stroke}"
+                 stroke-dasharray="${dash}" stroke-dashoffset="${-offset}" transform="rotate(-90 ${cx} ${cy})" stroke-linecap="butt"/>`;
+    offset += len;
+    return el;
+  }).join("");
+  const label = centerLabel ? `<text x="${cx}" y="${cy-4}" text-anchor="middle" font-size="17" font-weight="700" fill="#132540" font-family="JetBrains Mono">${centerLabel}</text>` : "";
+  const sub = centerSub ? `<text x="${cx}" y="${cy+14}" text-anchor="middle" font-size="9.5" fill="#5B6B85" font-family="Inter">${centerSub}</text>` : "";
+  return `<svg viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="${cx}" cy="${cy}" r="${R}" fill="none" stroke="#F0F4FA" stroke-width="${stroke}"/>
+    ${arcs}${label}${sub}
+  </svg>`;
+}
+
+function funnelShape(W,H,items){
+  const n = items.length;
+  const segW = W/(n-1);
+  const cy = H/2;
+  const maxH = H*0.9;
+  const colors = ["#154BAF","#2F6FED","#4E82F2","#84A9F6"];
+  let fills = "", dividers = "", labels = "";
+  for(let i=0;i<n-1;i++){
+    const h1 = maxH*items[i].w/100;
+    const h2 = maxH*items[i+1].w/100;
+    const x1 = i*segW, x2 = (i+1)*segW;
+    const y1a=cy-h1/2, y1b=cy+h1/2, y2a=cy-h2/2, y2b=cy+h2/2;
+    fills += `<polygon points="${x1},${y1a} ${x2},${y2a} ${x2},${y2b} ${x1},${y1b}" fill="${colors[i%colors.length]}"/>`;
+    const xm = (x1+x2)/2, ym = cy;
+    labels += `<text x="${xm}" y="${ym+4}" text-anchor="middle" font-size="12" font-weight="700" fill="#fff" font-family="JetBrains Mono">${items[i+1].amt}</text>`;
+  }
+  for(let i=1;i<n-1;i++){
+    const x = i*segW, h = maxH*items[i].w/100;
+    dividers += `<line x1="${x}" y1="${cy-h/2}" x2="${x}" y2="${cy+h/2}" stroke="#fff" stroke-width="1.5" opacity="0.55"/>`;
+  }
+  return `<svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">${fills}${dividers}${labels}</svg>`;
+}
+
+function hBarChart(W,H,items){
+  const padL=6, padR=44, padT=6, padB=18;
+  const innerW=W-padL-padR;
+  const maxV = niceMax(Math.max(...items.map(i=>i.val))*1.15);
+  const bh = (H-padT-padB)/items.length*0.55;
+  const gap = (H-padT-padB)/items.length;
+  const bars = items.map((it,i)=>{
+    const by = padT + gap*i + (gap-bh)/2;
+    const bw = innerW*it.val/maxV;
+    return `<rect x="${padL}" y="${by}" width="${Math.max(bw,2)}" height="${bh}" rx="3" fill="#2F6FED" opacity="${1 - i*0.12}"/>
+            <text x="${padL+bw+6}" y="${by+bh/2+3.5}" font-size="10" font-weight="700" font-family="JetBrains Mono" fill="#132540">${it.val}M</text>
+            <text x="${padL}" y="${by-3}" font-size="8.5" fill="#5B6B85" font-family="Inter">${it.name}</text>`;
+  }).join("");
+  return `<svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">${bars}</svg>`;
+}
+
+function stackedAreaChart(W,H,labels,series){
+  const padL=30, padR=10, padT=8, padB=18;
+  const innerW=W-padL-padR, innerH=H-padT-padB;
+  const x = i => padL + innerW*i/(labels.length-1);
+  const n = labels.length;
+  // build cumulative baselines
+  const cum = new Array(n).fill(0);
+  const layers = series.map(s=>{
+    const topCum = s.data.map((v,i)=> { const t = cum[i]+v; return t; });
+    const bottomCum = [...cum];
+    // build path: top left->right then bottom right->left
+    const topPts = topCum.map((v,i)=>`${x(i)},${padT+innerH-innerH*v/100}`).join(" ");
+    const botPts = bottomCum.slice().reverse().map((v,i)=>{
+      const idx = n-1-i;
+      return `${x(idx)},${padT+innerH-innerH*v/100}`;
+    }).join(" ");
+    for(let i=0;i<n;i++) cum[i]=topCum[i];
+    return `<polygon points="${topPts} ${botPts}" fill="${s.color}" opacity="0.88"/>`;
+  }).join("");
+
+  const grid = [0,0.25,0.5,0.75,1].map(f=>{
+    const gy = padT+innerH*(1-f);
+    return `<line x1="${padL}" y1="${gy}" x2="${W-padR}" y2="${gy}" stroke="rgba(255,255,255,0.5)" stroke-width="1"/>
+            <text x="${padL-6}" y="${gy+3}" text-anchor="end" font-size="8.5" fill="#5B6B85" font-family="Inter">${Math.round(100*f)}%</text>`;
+  }).join("");
+
+  const xLabels = labels.map((m,i)=> `<text x="${x(i)}" y="${H-4}" text-anchor="middle" font-size="8.5" fill="#8B98AF" font-family="Inter">${m}</text>`).join("");
+
+  return `<svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">${layers}${grid}${xLabels}</svg>`;
+}
+
+/* =========================================================================
+   PAGE TEMPLATES
+   ========================================================================= */
+function pageHeader(){ /* not used - header lives in chrome */ }
+
+function renderPage1(){
+  return `
+  <div class="kpi-row">
+    ${KPIS_HEADLINE.map(k=>`
+      <div class="kpi ${k.risk?'risk':''}">
+        <span class="kicon">${k.icon}</span>
+        <span class="klabel">${k.label}</span>
+        <span class="kvalue">${k.value}</span>
+        <span class="kcompare">vs ${k.vs} ${chgSpan(k.chg,k.dir)}</span>
+      </div>`).join("")}
+  </div>
+
+  <div class="row cols-2-a">
+    <div class="card">
+      <div class="card-title"><h2><span class="ic">📈</span>Collection Performance</h2><span class="tag">Monthly Trend — Actual vs Last Year</span></div>
+      <div class="stat-strip">
+        ${MINI_STATS.map(s=>`
+          <div class="ministat">
+            <div class="ml">${s.l}</div>
+            <div class="mv">${s.v}</div>
+            <div class="mc">${chgSpan(s.c,s.dir)}</div>
+          </div>`).join("")}
+      </div>
+      <div class="chart-holder" id="perfChart"></div>
+      <div class="legend-row">
+        <span><i style="background:#2F6FED"></i>Amount Collected (EGP)</span>
+        <span><i style="background:#B9CAEF"></i>Amount Collected LY (EGP)</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title"><h2><span class="ic">▤</span>Portfolio Health</h2></div>
+      <div class="chart-holder" style="flex:0 0 150px;" id="bucketDonut"></div>
+      <table class="bucket-table">
+        <thead><tr><th>Bucket (DPD)</th><th>Portfolio</th><th>% Total</th><th>vs LY</th></tr></thead>
+        <tbody>
+          ${BUCKETS.map(b=>`
+            <tr>
+              <td><span class="bucket-swatch" style="background:${b.color}"></span>${b.name}</td>
+              <td class="num">${b.val}</td>
+              <td class="num">${b.pct}%</td>
+              <td>${chgSpan(b.vsly,'bad')}</td>
+            </tr>`).join("")}
+        </tbody>
+      </table>
+      <div class="mini-chip-row" style="margin-top:8px;">
+        <div class="mini-chip" style="flex:1;">
+          <span class="cl">% Portfolio &gt; 90 DPD</span>
+          <span class="cv" style="color:var(--green)">12.0% ${chgSpan('-1.7 pp','good')}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="narrative-strip">
+    <div class="aic">💡</div>
+    <div class="ntxt">Portfolio grew <b>14.4% YoY</b> to <b>EGP 18.62B</b> while collection efficiency improved — NLP up <b>4.8 pp</b> to <b>76.9%</b> and the 30+ roll rate fell <b>1.4 pp</b>. Growth is being managed responsibly: write-offs rose 30.8% in line with book growth, but risk concentration in 90+ DPD actually shrank as a share of the portfolio.</div>
+    <div class="mini-chip-row">
+      <div class="mini-chip"><span class="cl">Portfolio Growth</span><span class="cv" style="color:var(--blue-deep)">+14.4%</span></div>
+      <div class="mini-chip"><span class="cl">NLP Improvement</span><span class="cv" style="color:var(--green)">+4.8 pp</span></div>
+      <div class="mini-chip"><span class="cl">Cost to Collect</span><span class="cv" style="color:var(--green)">-0.6 pp</span></div>
+    </div>
+  </div>
+  `;
+}
+
+function renderPage2(){
+  return `
+  <div class="row cols-2-b" style="flex:1.55;">
+    <div class="card">
+      <div class="card-title"><h2><span class="ic">📊</span>Bucket Migration Trend</h2><span class="tag">% of Portfolio by DPD Bucket — Trailing 12 Months</span></div>
+      <div class="chart-holder" id="bucketMigration"></div>
+      <div class="legend-row">
+        ${BUCKET_SERIES.map(s=>`<span><i style="background:${s.color}"></i>${s.name}</span>`).join("")}
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title"><h2><span class="ic">⚠</span>Top Delinquency Drivers</h2><span class="tag">YoY Contribution</span></div>
+      <div style="flex:1;display:flex;flex-direction:column;justify-content:space-evenly;">
+        ${DRIVERS.map(d=>`
+          <div class="driver-item" style="border-bottom:none;flex-direction:column;align-items:stretch;gap:2px;padding:5px 0;">
+            <div style="display:flex;justify-content:space-between;">
+              <span class="dname">${d.name}</span><span class="driver-val">${d.val}</span>
+            </div>
+            <div class="driver-bar-bg"><div class="driver-bar" style="width:${d.pct}%"></div></div>
+          </div>`).join("")}
+      </div>
+    </div>
+  </div>
+
+  <div class="row cols-3" style="flex:1.7;">
+    <div class="card">
+      <div class="card-title"><h2><span class="ic">◧</span>Product-Wise Performance</h2><span class="tag">YTD</span></div>
+      <table>
+        <thead><tr><th>Product</th><th>Portfolio</th><th>NLP</th><th>Collected</th><th>vs LY</th></tr></thead>
+        <tbody>
+          ${PRODUCTS.map(p=>`
+            <tr>
+              <td><span class="prod-ic">${p.ic}</span>${p.name}</td>
+              <td class="num">${p.portfolio}</td>
+              <td class="num">${p.nlp}</td>
+              <td class="num">${p.collected}</td>
+              <td>${chgSpan(p.vsly,p.dir)}</td>
+            </tr>`).join("")}
+        </tbody>
+      </table>
+    </div>
+
+    <div class="card">
+      <div class="card-title"><h2><span class="ic">🗑</span>Written-Off Analysis</h2><span class="tag">YTD</span></div>
+      <div class="stat-strip" style="margin-bottom:4px;">
+        <div class="ministat"><div class="ml">Written Off (EGP)</div><div class="mv">412M</div><div class="mc">${chgSpan('+30.8%','bad')}</div></div>
+        <div class="ministat"><div class="ml">% of Portfolio</div><div class="mv">2.21%</div><div class="mc">${chgSpan('+0.27 pp','bad')}</div></div>
+      </div>
+      <div class="chart-holder" id="writeoffBar"></div>
+    </div>
+
+    <div class="card">
+      <div class="card-title"><h2><span class="ic">🚀</span>Lending Growth Engine</h2><span class="tag">YTD</span></div>
+      <div style="display:flex;flex-direction:column;gap:8px;flex:1;justify-content:center;">
+        ${LENDING.map(l=>`
+          <div style="display:flex;justify-content:space-between;align-items:center;background:var(--surface-tint);border:1px solid var(--border);border-radius:9px;padding:7px 10px;">
+            <span style="font-size:10.5px;color:var(--ink-soft);font-weight:600;">${l.l}</span>
+            <span style="display:flex;align-items:center;gap:7px;">
+              <span class="num" style="font-size:13px;font-weight:700;">${l.v}</span>
+              ${chgSpan(l.chg,l.dir)}
+            </span>
+          </div>`).join("")}
+        <div style="font-size:10px;color:var(--ink-soft);background:var(--blue-pale2);border-radius:8px;padding:7px 10px;line-height:1.4;">
+          Portfolio grew <b class="num">+14.4%</b> YoY on higher volume even as approval rate tightened — underwriting is more selective while book size still expands.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card" style="flex:0.85;">
+    <div class="card-title"><h2><span class="ic">🔻</span>Collection Funnel (YTD)</h2><span class="tag">Portfolio → Collected</span></div>
+    <div class="chart-holder" id="funnelChart"></div>
+    <div style="display:flex;flex:none;">
+      ${FUNNEL.map(f=>`
+        <div style="flex:1;text-align:center;">
+          <div class="num" style="font-size:12.5px;font-weight:700;color:var(--ink);">${f.amt}</div>
+          <div style="font-size:9.5px;color:var(--ink-soft);font-weight:600;">${f.name}</div>
+          <div style="font-size:9px;color:var(--ink-faint);">${f.pct}</div>
+        </div>`).join("")}
+    </div>
+  </div>
+  `;
+}
+
+function renderPage3(){
+  return `
+  <div class="kc-row">
+    ${KEY_CHANGES.map(k=>`
+      <div class="kc-card">
+        <div class="kcic">${k.icon}</div>
+        <div class="kctitle">${k.title}</div>
+        <div class="kcsub">${k.sub}</div>
+        <div class="kcval ${k.dir}">${k.val}</div>
+        <div class="kcsub">${k.tag}</div>
+      </div>`).join("")}
+  </div>
+
+  <div class="row cols-2-a" style="flex:1.65;">
+    <div class="card ai-card">
+      <div class="card-title">
+        <h2><span class="ic">✳</span>AI Recommended Actions</h2>
+        <span class="ai-badge"><span class="pulse"></span>Live Scoring</span>
+      </div>
+      <table>
+        <thead><tr><th>Segment</th><th>Recommended Action</th><th>Accounts</th><th>Potential Recovery</th><th>Confidence</th></tr></thead>
+        <tbody>
+          ${AI_ACTIONS.map(a=>`
+            <tr>
+              <td style="font-weight:600;">${a.seg}</td>
+              <td style="color:var(--ink-soft);">${a.action}</td>
+              <td class="num">${a.accts}</td>
+              <td class="num" style="font-weight:700;">${a.recovery}</td>
+              <td><span class="conf-chip conf-${a.conf}">${a.conf}</span></td>
+            </tr>`).join("")}
+        </tbody>
+      </table>
+    </div>
+
+    <div class="card ai-card">
+      <div class="card-title"><h2><span class="ic">◔</span>AI Risk Segmentation</h2><span class="tag">of EGP 18.62B</span></div>
+      <div class="chart-holder" style="flex:0 0 130px;" id="riskDonut"></div>
+      <div style="display:flex;flex-direction:column;gap:6px;margin-top:4px;">
+        ${AI_RISK_TIERS.map(t=>`
+          <div style="display:flex;justify-content:space-between;align-items:center;font-size:10px;">
+            <span style="display:flex;align-items:center;gap:6px;"><i style="width:8px;height:8px;border-radius:2px;background:${t.color};display:inline-block;"></i>${t.name}</span>
+            <span class="num" style="font-weight:700;">${t.pct}% · ${t.amt}</span>
+          </div>`).join("")}
+      </div>
+    </div>
+  </div>
+
+  <div class="row cols-2-b" style="flex:1.1;">
+    <div class="card ai-card">
+      <div class="card-title"><h2><span class="ic">📡</span>Early Warning Signals</h2><span class="tag">Auto-Detected This Cycle</span></div>
+      <div class="anomaly-row">
+        ${ANOMALIES.map(a=>`
+          <div class="anomaly-item">
+            <span class="atag ${a.cls}">${a.tag}</span>
+            <span class="atxt">${a.txt}</span>
+          </div>`).join("")}
+      </div>
+    </div>
+    <div class="card ai-card">
+      <div class="card-title"><h2><span class="ic">🔮</span>NLP Forecast</h2><span class="tag">Next Quarter Projection</span></div>
+      <div class="chart-holder" id="forecastChart"></div>
+      <div class="legend-row">
+        <span><i style="background:#2F6FED"></i>Actual</span>
+        <span><i style="background:#0E9E93"></i>Forecast</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="model-strip">
+    ${MODEL_STATS.map(m=>`<div class="model-chip"><div class="mcl">${m.l}</div><div class="mcv">${m.v}</div></div>`).join("")}
+  </div>
+  `;
+}
+
+/* =========================================================================
+   MOUNT + CHART INJECTION
+   ========================================================================= */
+const PAGES = [
+  {eyebrow:"Executive Summary", title:"Collection Portfolio Overview", render:renderPage1, afterMount:()=>{
+    document.getElementById("perfChart").innerHTML = lineChart(960,240,{
+      labels:PERF_MONTHS,
+      series:[
+        {data:PERF_THIS, color:"#2F6FED", fill:true},
+        {data:PERF_LY, color:"#B9CAEF", dashed:true}
+      ]
+    });
+    document.getElementById("bucketDonut").innerHTML = donutChart(150,150,BUCKETS.map(b=>({pct:b.pct,color:b.color})),{centerLabel:"18.62B", centerSub:"Total Portfolio"});
+  }},
+  {eyebrow:"Risk & Lending Detail", title:"Portfolio Risk, Write-Offs & Lending Activity", render:renderPage2, afterMount:()=>{
+    document.getElementById("bucketMigration").innerHTML = stackedAreaChart(720,220,BUCKET_MIGRATION_MONTHS,BUCKET_SERIES);
+    document.getElementById("writeoffBar").innerHTML = hBarChart(320,150,WRITEOFF_BY_PRODUCT);
+    document.getElementById("funnelChart").innerHTML = funnelShape(1490,110,FUNNEL);
+  }},
+  {eyebrow:"Year-over-Year Story · AI Intelligence", title:"What Changed & What's Next", render:renderPage3, afterMount:()=>{
+    document.getElementById("riskDonut").innerHTML = donutChart(130,130,AI_RISK_TIERS.map(t=>({pct:t.pct,color:t.color})),{centerLabel:"10%", centerSub:"High Risk"});
+    document.getElementById("forecastChart").innerHTML = lineChart(320,150,{
+      labels:NLP_FORECAST_MONTHS,
+      series:[
+        {data:[...NLP_FORECAST_ACTUAL, null,null,null].filter(v=>v!==null), color:"#2F6FED"},
+      ],
+      yMin:65, yMax:85
+    }).replace('</svg>', buildForecastOverlay());
+  }},
+];
+
+function buildForecastOverlay(){
+  // draws the dashed projection segment continuing from the last actual point
+  const W=320,H=150,padL=34,padR=10,padT=10,padB=22;
+  const innerW=W-padL-padR, innerH=H-padT-padB;
+  const labels = NLP_FORECAST_MONTHS;
+  const yMin=65, yMax=85, range=yMax-yMin;
+  const x = i => padL + innerW*i/(labels.length-1);
+  const y = v => padT + innerH - innerH*(v-yMin)/range;
+  const startIdx = NLP_FORECAST_ACTUAL.length-1;
+  const projPts = NLP_FORECAST_PROJ.map((v,i)=>`${x(startIdx+i)},${y(v)}`).join(" ");
+  const dots = NLP_FORECAST_PROJ.map((v,i)=> i>0 ? `<circle cx="${x(startIdx+i)}" cy="${y(v)}" r="2.6" fill="#0E9E93" stroke="#fff" stroke-width="1"/>`:"").join("");
+  const finalLabel = `<text x="${x(labels.length-1)}" y="${y(NLP_FORECAST_PROJ[NLP_FORECAST_PROJ.length-1])-8}" text-anchor="end" font-size="10" font-weight="700" fill="#0E9E93" font-family="JetBrains Mono">${NLP_FORECAST_PROJ[NLP_FORECAST_PROJ.length-1]}%</text>`;
+  return `<polyline points="${projPts}" fill="none" stroke="#0E9E93" stroke-width="2.2" stroke-dasharray="4 4" stroke-linecap="round"/>${dots}${finalLabel}</svg>`;
+}
+
+let current = 0;
+const pagesWrap = document.getElementById("pagesWrap");
+const dotsWrap = document.getElementById("dotsWrap");
+
+function buildPages(){
+  PAGES.forEach((p,i)=>{
+    const sec = document.createElement("section");
+    sec.className = "page" + (i===0?" active":"");
+    sec.id = "page-"+i;
+    sec.innerHTML = p.render();
+    pagesWrap.appendChild(sec);
+
+    const dot = document.createElement("span");
+    dot.addEventListener("click", ()=> goTo(i));
+    dotsWrap.appendChild(dot);
+  });
+  mountCharts(0);
+  updateChrome();
+}
+
+function mountCharts(i){
+  if(PAGES[i].afterMount) PAGES[i].afterMount();
+}
+
+function updateChrome(){
+  document.getElementById("pageEyebrow").textContent = PAGES[current].eyebrow;
+  document.getElementById("pageHeading").textContent = PAGES[current].title;
+  [...dotsWrap.children].forEach((d,i)=> d.classList.toggle("active", i===current));
+  [...pagesWrap.children].forEach((p,i)=> p.classList.toggle("active", i===current));
+}
+
+function goTo(i){
+  current = (i + PAGES.length) % PAGES.length;
+  updateChrome();
+  mountCharts(current);
+}
+
+document.getElementById("prevBtn").addEventListener("click", ()=> goTo(current-1));
+document.getElementById("nextBtn").addEventListener("click", ()=> goTo(current+1));
+document.addEventListener("keydown", e=>{
+  if(e.key === "ArrowRight") goTo(current+1);
+  if(e.key === "ArrowLeft") goTo(current-1);
+});
+
+/* =========================================================================
+   SCALE-TO-FIT
+   ========================================================================= */
+function fitStage(){
+  const scale = Math.min(window.innerWidth/1600, window.innerHeight/900) * 0.98;
+  document.getElementById("stage").style.transform = `scale(${scale})`;
+}
+window.addEventListener("resize", fitStage);
+
+buildPages();
+fitStage();
+</script>
+</body>
+</html>

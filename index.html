@@ -66,11 +66,6 @@
     border-bottom:2px solid var(--orange-deep);
   }
   .brand{display:flex;align-items:center;gap:12px;}
-  .brand .mark{
-    width:34px;height:34px;border-radius:9px;
-    background:linear-gradient(145deg,var(--orange),var(--orange-deep));
-    display:flex;align-items:center;justify-content:center;color:#241203;font-size:16px;
-  }
   .brand-txt{line-height:1.15;}
   .brand-txt .b1{font-size:11px;letter-spacing:1.2px;font-weight:700;color:#8CA0C4;text-transform:uppercase;}
   .brand-txt .b2{font-size:16px;font-weight:700;color:#fff;font-family:'Space Grotesk',sans-serif;}
@@ -121,10 +116,6 @@
     display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;flex:none;
   }
   .card-title h2{font-size:12.5px;font-weight:700;letter-spacing:.3px;color:var(--ink);text-transform:uppercase;display:flex;align-items:center;gap:7px;}
-  .card-title .ic{
-    width:19px;height:19px;border-radius:6px;background:var(--blue-pale);color:var(--blue-deep);
-    display:flex;align-items:center;justify-content:center;font-size:10.5px;flex:none;
-  }
   .card-title .tag{font-size:9.5px;color:var(--ink-faint);font-weight:600;}
 
   /* ---------- KPI tiles ---------- */
@@ -135,7 +126,6 @@
   }
   .kpi::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--blue);}
   .kpi.risk::before{background:var(--red);}
-  .kpi .kicon{font-size:14px;}
   .kpi .klabel{font-size:9.5px;font-weight:700;letter-spacing:.5px;color:var(--ink-faint);text-transform:uppercase;}
   .kpi .kvalue{font-size:21px;font-weight:700;font-family:'JetBrains Mono',monospace;color:var(--ink);}
   .kpi .kcompare{font-size:10.5px;color:var(--ink-faint);display:flex;align-items:center;gap:5px;}
@@ -158,7 +148,6 @@
   }
   tbody td{padding:6.5px 6px;border-bottom:1px solid var(--border);color:var(--ink);}
   tbody tr:last-child td{border-bottom:none;}
-  .prod-ic{width:16px;height:16px;border-radius:5px;background:var(--blue-pale);display:inline-flex;align-items:center;justify-content:center;font-size:9px;margin-right:6px;}
 
   /* ---------- misc small components ---------- */
   .stat-strip{display:flex;justify-content:space-between;gap:6px;flex:none;margin-bottom:6px;}
@@ -180,10 +169,6 @@
     flex:none;display:flex;gap:14px;align-items:center;
     background:linear-gradient(90deg,var(--blue-pale2),var(--surface));
     border:1px solid var(--border);border-radius:var(--radius);padding:12px 18px;
-  }
-  .narrative-strip .aic{
-    width:34px;height:34px;border-radius:9px;background:var(--blue);color:#fff;flex:none;
-    display:flex;align-items:center;justify-content:center;font-size:16px;
   }
   .narrative-strip .ntxt{font-size:12.5px;color:var(--ink);line-height:1.4;flex:1;}
   .narrative-strip .ntxt b{color:var(--blue-deep);}
@@ -209,10 +194,6 @@
     background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);
     padding:14px 12px;display:flex;flex-direction:column;align-items:center;text-align:center;gap:6px;justify-content:center;
   }
-  .kc-card .kcic{
-    width:36px;height:36px;border-radius:10px;background:var(--blue-pale);color:var(--blue-deep);
-    display:flex;align-items:center;justify-content:center;font-size:17px;
-  }
   .kc-card .kctitle{font-size:11px;font-weight:700;color:var(--ink);}
   .kc-card .kcsub{font-size:9px;color:var(--ink-faint);line-height:1.3;}
   .kc-card .kcval{font-size:14px;font-weight:700;font-family:'JetBrains Mono',monospace;}
@@ -221,13 +202,10 @@
 
   /* ---------- AI page ---------- */
   .ai-card{border-color:#CFEDE9;background:linear-gradient(180deg,#FFFFFF, #F5FCFB);}
-  .ai-card .card-title .ic{background:var(--teal-pale);color:var(--teal);}
   .ai-badge{
     display:inline-flex;align-items:center;gap:6px;padding:3px 10px;border-radius:20px;
     background:var(--teal-pale);color:var(--teal);font-size:9.5px;font-weight:700;letter-spacing:.3px;
   }
-  .pulse{width:6px;height:6px;border-radius:50%;background:var(--teal);animation:pulse 1.8s infinite;}
-  @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(14,158,147,.5);}70%{box-shadow:0 0 0 6px rgba(14,158,147,0);}100%{box-shadow:0 0 0 0 rgba(14,158,147,0);}}
 
   .conf-chip{padding:2px 8px;border-radius:10px;font-size:9.5px;font-weight:700;}
   .conf-High{background:var(--green-pale);color:var(--green);}
@@ -261,7 +239,6 @@
 
     <div class="chrome-head">
       <div class="brand">
-        <div class="mark">◆</div>
         <div class="brand-txt">
           <div class="b1">Bank Demo</div>
           <div class="b2">Collections Intelligence</div>
@@ -301,12 +278,12 @@
    DATA
    ========================================================================= */
 const KPIS_HEADLINE = [
-  {icon:"◎", label:"Collection Target (YTD)", value:"EGP 1.25B", vs:"EGP 1.08B", chg:"+15.7%", dir:"good"},
-  {icon:"◍", label:"Amount Collected (YTD)", value:"EGP 963M", vs:"EGP 812M", chg:"+18.6%", dir:"good"},
-  {icon:"◐", label:"Net Liquidation % (NLP)", value:"76.9%", vs:"72.1%", chg:"+4.8 pp", dir:"good"},
-  {icon:"▤", label:"Portfolio on Book", value:"EGP 18.62B", vs:"EGP 16.27B", chg:"+14.4%", dir:"neutral"},
-  {icon:"⚠", label:"Written Off (YTD)", value:"EGP 412M", vs:"EGP 315M", chg:"+30.8%", dir:"bad", risk:true},
-  {icon:"◒", label:"Cost to Collect", value:"8.7%", vs:"9.3%", chg:"-0.6 pp", dir:"good"},
+  {label:"Collection Target (YTD)", value:"EGP 1.25B", vs:"EGP 1.08B", chg:"+15.7%", dir:"good"},
+  {label:"Amount Collected (YTD)", value:"EGP 963M", vs:"EGP 812M", chg:"+18.6%", dir:"good"},
+  {label:"Net Liquidation % (NLP)", value:"76.9%", vs:"72.1%", chg:"+4.8 pp", dir:"good"},
+  {label:"Portfolio on Book", value:"EGP 18.62B", vs:"EGP 16.27B", chg:"+14.4%", dir:"neutral"},
+  {label:"Written Off (YTD)", value:"EGP 412M", vs:"EGP 315M", chg:"+30.8%", dir:"bad", risk:true},
+  {label:"Cost to Collect", value:"8.7%", vs:"9.3%", chg:"-0.6 pp", dir:"good"},
 ];
 
 const PERF_MONTHS = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
@@ -331,11 +308,11 @@ const BUCKETS = [
 ];
 
 const PRODUCTS = [
-  {ic:"◧", name:"Personal Loans", portfolio:"8.26B", nlp:"78.3%", collected:"428M", vsly:"+5.1 pp", dir:"good"},
-  {ic:"▭", name:"Credit Cards", portfolio:"5.31B", nlp:"74.1%", collected:"312M", vsly:"+3.2 pp", dir:"good"},
-  {ic:"◨", name:"Auto Loans", portfolio:"2.62B", nlp:"77.8%", collected:"162M", vsly:"+6.8 pp", dir:"good"},
-  {ic:"⌂", name:"Mortgage Loans", portfolio:"1.98B", nlp:"70.2%", collected:"61M", vsly:"-1.7 pp", dir:"bad"},
-  {ic:"◇", name:"Other Loans", portfolio:"0.45B", nlp:"65.4%", collected:"18M", vsly:"+2.6 pp", dir:"good"},
+  {name:"Personal Loans", portfolio:"8.26B", nlp:"78.3%", collected:"428M", vsly:"+5.1 pp", dir:"good"},
+  {name:"Credit Cards", portfolio:"5.31B", nlp:"74.1%", collected:"312M", vsly:"+3.2 pp", dir:"good"},
+  {name:"Auto Loans", portfolio:"2.62B", nlp:"77.8%", collected:"162M", vsly:"+6.8 pp", dir:"good"},
+  {name:"Mortgage Loans", portfolio:"1.98B", nlp:"70.2%", collected:"61M", vsly:"-1.7 pp", dir:"bad"},
+  {name:"Other Loans", portfolio:"0.45B", nlp:"65.4%", collected:"18M", vsly:"+2.6 pp", dir:"good"},
 ];
 
 const WRITEOFF_BY_PRODUCT = [
@@ -377,12 +354,12 @@ const BUCKET_SERIES = [
 ];
 
 const KEY_CHANGES = [
-  {icon:"📈", title:"Portfolio Growth", sub:"Portfolio increased by", val:"EGP 2.35B", tag:"(+14.4%)", dir:"good"},
-  {icon:"🤝", title:"More Lending", sub:"New Book increased by", val:"EGP 611M", tag:"(+20.3%)", dir:"good"},
-  {icon:"✅", title:"Better Collections", sub:"NLP improved by", val:"4.8 pp", tag:"(72.1% → 76.9%)", dir:"good"},
-  {icon:"🛡", title:"Lower Roll Rate", sub:"30+ Roll Rate improved by", val:"1.4 pp", tag:"(9.7% → 8.3%)", dir:"good"},
-  {icon:"⚠", title:"Higher Write-offs", sub:"Write-offs increased by", val:"EGP 97M", tag:"(+30.8%)", dir:"bad"},
-  {icon:"💰", title:"Lower Cost to Collect", sub:"Cost to collect improved by", val:"0.6 pp", tag:"(9.3% → 8.7%)", dir:"good"},
+  {title:"Portfolio Growth", sub:"Portfolio increased by", val:"EGP 2.35B", tag:"(+14.4%)", dir:"good"},
+  {title:"More Lending", sub:"New Book increased by", val:"EGP 611M", tag:"(+20.3%)", dir:"good"},
+  {title:"Better Collections", sub:"NLP improved by", val:"4.8 pp", tag:"(72.1% → 76.9%)", dir:"good"},
+  {title:"Lower Roll Rate", sub:"30+ Roll Rate improved by", val:"1.4 pp", tag:"(9.7% → 8.3%)", dir:"good"},
+  {title:"Higher Write-offs", sub:"Write-offs increased by", val:"EGP 97M", tag:"(+30.8%)", dir:"bad"},
+  {title:"Lower Cost to Collect", sub:"Cost to collect improved by", val:"0.6 pp", tag:"(9.3% → 8.7%)", dir:"good"},
 ];
 
 const AI_RISK_TIERS = [
@@ -490,27 +467,21 @@ function donutChart(W,H,segments,{centerLabel, centerSub}){
   </svg>`;
 }
 
-function funnelShape(W,H,items){
+function funnelBarChart(W,H,items){
+  const padL=6, padR=10, padT=6, padB=6;
+  const innerW=W-padL-padR;
   const n = items.length;
-  const segW = W/(n-1);
-  const cy = H/2;
-  const maxH = H*0.9;
-  const colors = ["#154BAF","#2F6FED","#4E82F2","#84A9F6"];
-  let fills = "", dividers = "", labels = "";
-  for(let i=0;i<n-1;i++){
-    const h1 = maxH*items[i].w/100;
-    const h2 = maxH*items[i+1].w/100;
-    const x1 = i*segW, x2 = (i+1)*segW;
-    const y1a=cy-h1/2, y1b=cy+h1/2, y2a=cy-h2/2, y2b=cy+h2/2;
-    fills += `<polygon points="${x1},${y1a} ${x2},${y2a} ${x2},${y2b} ${x1},${y1b}" fill="${colors[i%colors.length]}"/>`;
-    const xm = (x1+x2)/2, ym = cy;
-    labels += `<text x="${xm}" y="${ym+4}" text-anchor="middle" font-size="12" font-weight="700" fill="#fff" font-family="JetBrains Mono">${items[i+1].amt}</text>`;
-  }
-  for(let i=1;i<n-1;i++){
-    const x = i*segW, h = maxH*items[i].w/100;
-    dividers += `<line x1="${x}" y1="${cy-h/2}" x2="${x}" y2="${cy+h/2}" stroke="#fff" stroke-width="1.5" opacity="0.55"/>`;
-  }
-  return `<svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">${fills}${dividers}${labels}</svg>`;
+  const gap = (H-padT-padB)/n;
+  const bh = gap*0.6;
+  const colors = ["#154BAF","#2F6FED","#4E82F2","#84A9F6","#B9CAEF"];
+  const bars = items.map((it,i)=>{
+    const by = padT + gap*i + (gap-bh)/2;
+    const bw = Math.max(innerW*it.w/100, 40);
+    return `<rect x="${padL}" y="${by}" width="${bw}" height="${bh}" rx="4" fill="${colors[i%colors.length]}"/>
+            <text x="${padL+10}" y="${by+bh/2+4}" font-size="12" font-weight="700" fill="#fff" font-family="Inter">${it.name}</text>
+            <text x="${padL+bw+10}" y="${by+bh/2+4}" font-size="12" font-weight="700" font-family="JetBrains Mono" fill="#132540">${it.amt} · ${it.pct}</text>`;
+  }).join("");
+  return `<svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">${bars}</svg>`;
 }
 
 function hBarChart(W,H,items){
@@ -570,7 +541,6 @@ function renderPage1(){
   <div class="kpi-row">
     ${KPIS_HEADLINE.map(k=>`
       <div class="kpi ${k.risk?'risk':''}">
-        <span class="kicon">${k.icon}</span>
         <span class="klabel">${k.label}</span>
         <span class="kvalue">${k.value}</span>
         <span class="kcompare">vs ${k.vs} ${chgSpan(k.chg,k.dir)}</span>
@@ -579,7 +549,7 @@ function renderPage1(){
 
   <div class="row cols-2-a">
     <div class="card">
-      <div class="card-title"><h2><span class="ic">📈</span>Collection Performance</h2><span class="tag">Monthly Trend — Actual vs Last Year</span></div>
+      <div class="card-title"><h2>Collection Performance</h2><span class="tag">Monthly Trend — Actual vs Last Year</span></div>
       <div class="stat-strip">
         ${MINI_STATS.map(s=>`
           <div class="ministat">
@@ -596,7 +566,7 @@ function renderPage1(){
     </div>
 
     <div class="card">
-      <div class="card-title"><h2><span class="ic">▤</span>Portfolio Health</h2></div>
+      <div class="card-title"><h2>Portfolio Health</h2></div>
       <div class="chart-holder" style="flex:0 0 150px;" id="bucketDonut"></div>
       <table class="bucket-table">
         <thead><tr><th>Bucket (DPD)</th><th>Portfolio</th><th>% Total</th><th>vs LY</th></tr></thead>
@@ -620,7 +590,6 @@ function renderPage1(){
   </div>
 
   <div class="narrative-strip">
-    <div class="aic">💡</div>
     <div class="ntxt">Portfolio grew <b>14.4% YoY</b> to <b>EGP 18.62B</b> while collection efficiency improved — NLP up <b>4.8 pp</b> to <b>76.9%</b> and the 30+ roll rate fell <b>1.4 pp</b>. Growth is being managed responsibly: write-offs rose 30.8% in line with book growth, but risk concentration in 90+ DPD actually shrank as a share of the portfolio.</div>
     <div class="mini-chip-row">
       <div class="mini-chip"><span class="cl">Portfolio Growth</span><span class="cv" style="color:var(--blue-deep)">+14.4%</span></div>
@@ -635,14 +604,14 @@ function renderPage2(){
   return `
   <div class="row cols-2-b" style="flex:1.55;">
     <div class="card">
-      <div class="card-title"><h2><span class="ic">📊</span>Bucket Migration Trend</h2><span class="tag">% of Portfolio by DPD Bucket — Trailing 12 Months</span></div>
+      <div class="card-title"><h2>Bucket Migration Trend</h2><span class="tag">% of Portfolio by DPD Bucket — Trailing 12 Months</span></div>
       <div class="chart-holder" id="bucketMigration"></div>
       <div class="legend-row">
         ${BUCKET_SERIES.map(s=>`<span><i style="background:${s.color}"></i>${s.name}</span>`).join("")}
       </div>
     </div>
     <div class="card">
-      <div class="card-title"><h2><span class="ic">⚠</span>Top Delinquency Drivers</h2><span class="tag">YoY Contribution</span></div>
+      <div class="card-title"><h2>Top Delinquency Drivers</h2><span class="tag">YoY Contribution</span></div>
       <div style="flex:1;display:flex;flex-direction:column;justify-content:space-evenly;">
         ${DRIVERS.map(d=>`
           <div class="driver-item" style="border-bottom:none;flex-direction:column;align-items:stretch;gap:2px;padding:5px 0;">
@@ -657,13 +626,13 @@ function renderPage2(){
 
   <div class="row cols-3" style="flex:1.7;">
     <div class="card">
-      <div class="card-title"><h2><span class="ic">◧</span>Product-Wise Performance</h2><span class="tag">YTD</span></div>
+      <div class="card-title"><h2>Product-Wise Performance</h2><span class="tag">YTD</span></div>
       <table>
         <thead><tr><th>Product</th><th>Portfolio</th><th>NLP</th><th>Collected</th><th>vs LY</th></tr></thead>
         <tbody>
           ${PRODUCTS.map(p=>`
             <tr>
-              <td><span class="prod-ic">${p.ic}</span>${p.name}</td>
+              <td>${p.name}</td>
               <td class="num">${p.portfolio}</td>
               <td class="num">${p.nlp}</td>
               <td class="num">${p.collected}</td>
@@ -674,7 +643,7 @@ function renderPage2(){
     </div>
 
     <div class="card">
-      <div class="card-title"><h2><span class="ic">🗑</span>Written-Off Analysis</h2><span class="tag">YTD</span></div>
+      <div class="card-title"><h2>Written-Off Analysis</h2><span class="tag">YTD</span></div>
       <div class="stat-strip" style="margin-bottom:4px;">
         <div class="ministat"><div class="ml">Written Off (EGP)</div><div class="mv">412M</div><div class="mc">${chgSpan('+30.8%','bad')}</div></div>
         <div class="ministat"><div class="ml">% of Portfolio</div><div class="mv">2.21%</div><div class="mc">${chgSpan('+0.27 pp','bad')}</div></div>
@@ -683,7 +652,7 @@ function renderPage2(){
     </div>
 
     <div class="card">
-      <div class="card-title"><h2><span class="ic">🚀</span>Lending Growth Engine</h2><span class="tag">YTD</span></div>
+      <div class="card-title"><h2>Lending Growth Engine</h2><span class="tag">YTD</span></div>
       <div style="display:flex;flex-direction:column;gap:8px;flex:1;justify-content:center;">
         ${LENDING.map(l=>`
           <div style="display:flex;justify-content:space-between;align-items:center;background:var(--surface-tint);border:1px solid var(--border);border-radius:9px;padding:7px 10px;">
@@ -701,7 +670,7 @@ function renderPage2(){
   </div>
 
   <div class="card" style="flex:0.85;">
-    <div class="card-title"><h2><span class="ic">🔻</span>Collection Funnel (YTD)</h2><span class="tag">Portfolio → Collected</span></div>
+    <div class="card-title"><h2>Collection Funnel (YTD)</h2><span class="tag">Portfolio → Collected</span></div>
     <div class="chart-holder" id="funnelChart"></div>
     <div style="display:flex;flex:none;">
       ${FUNNEL.map(f=>`
@@ -720,7 +689,6 @@ function renderPage3(){
   <div class="kc-row">
     ${KEY_CHANGES.map(k=>`
       <div class="kc-card">
-        <div class="kcic">${k.icon}</div>
         <div class="kctitle">${k.title}</div>
         <div class="kcsub">${k.sub}</div>
         <div class="kcval ${k.dir}">${k.val}</div>
@@ -731,8 +699,8 @@ function renderPage3(){
   <div class="row cols-2-a" style="flex:1.65;">
     <div class="card ai-card">
       <div class="card-title">
-        <h2><span class="ic">✳</span>AI Recommended Actions</h2>
-        <span class="ai-badge"><span class="pulse"></span>Live Scoring</span>
+        <h2>AI Recommended Actions</h2>
+        <span class="ai-badge">Live Scoring</span>
       </div>
       <table>
         <thead><tr><th>Segment</th><th>Recommended Action</th><th>Accounts</th><th>Potential Recovery</th><th>Confidence</th></tr></thead>
@@ -750,7 +718,7 @@ function renderPage3(){
     </div>
 
     <div class="card ai-card">
-      <div class="card-title"><h2><span class="ic">◔</span>AI Risk Segmentation</h2><span class="tag">of EGP 18.62B</span></div>
+      <div class="card-title"><h2>AI Risk Segmentation</h2><span class="tag">of EGP 18.62B</span></div>
       <div class="chart-holder" style="flex:0 0 130px;" id="riskDonut"></div>
       <div style="display:flex;flex-direction:column;gap:6px;margin-top:4px;">
         ${AI_RISK_TIERS.map(t=>`
@@ -764,7 +732,7 @@ function renderPage3(){
 
   <div class="row cols-2-b" style="flex:1.1;">
     <div class="card ai-card">
-      <div class="card-title"><h2><span class="ic">📡</span>Early Warning Signals</h2><span class="tag">Auto-Detected This Cycle</span></div>
+      <div class="card-title"><h2>Early Warning Signals</h2><span class="tag">Auto-Detected This Cycle</span></div>
       <div class="anomaly-row">
         ${ANOMALIES.map(a=>`
           <div class="anomaly-item">
@@ -774,7 +742,7 @@ function renderPage3(){
       </div>
     </div>
     <div class="card ai-card">
-      <div class="card-title"><h2><span class="ic">🔮</span>NLP Forecast</h2><span class="tag">Next Quarter Projection</span></div>
+      <div class="card-title"><h2>NLP Forecast</h2><span class="tag">Next Quarter Projection</span></div>
       <div class="chart-holder" id="forecastChart"></div>
       <div class="legend-row">
         <span><i style="background:#2F6FED"></i>Actual</span>
@@ -806,7 +774,7 @@ const PAGES = [
   {eyebrow:"Risk & Lending Detail", title:"Portfolio Risk, Write-Offs & Lending Activity", render:renderPage2, afterMount:()=>{
     document.getElementById("bucketMigration").innerHTML = stackedAreaChart(720,220,BUCKET_MIGRATION_MONTHS,BUCKET_SERIES);
     document.getElementById("writeoffBar").innerHTML = hBarChart(320,150,WRITEOFF_BY_PRODUCT);
-    document.getElementById("funnelChart").innerHTML = funnelShape(1490,110,FUNNEL);
+    document.getElementById("funnelChart").innerHTML = funnelBarChart(1490,110,FUNNEL);
   }},
   {eyebrow:"Year-over-Year Story · AI Intelligence", title:"What Changed & What's Next", render:renderPage3, afterMount:()=>{
     document.getElementById("riskDonut").innerHTML = donutChart(130,130,AI_RISK_TIERS.map(t=>({pct:t.pct,color:t.color})),{centerLabel:"10%", centerSub:"High Risk"});
